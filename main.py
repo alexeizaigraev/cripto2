@@ -4,15 +4,15 @@ import os, sys, shutil
 
 
 def main():
-    print(f'\n{EMAIL_1=}\n{EMAIL_2=}\n')
+    print('emaills: ', EMAIL_1, EMAIL_2)
     fnames = os.listdir('in_data')
     if fnames:
         for fname in fnames:
-            log_data = f'start main {fnames}'
+            log_data = 'start main ' + str(fnames)
             loger(log_data)
             flag_prefix = check_prefix(fname)
             if not flag_prefix:
-                p_yellow(f'-> arhiv {fname}')
+                p_yellow('-> arhiv: ' + fname)
                 continue
             process(fname)
             loger('\n')

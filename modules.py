@@ -5,27 +5,28 @@ from colorama import Fore, Style, init
 #import gnupg
 
 def alarm(s):
-    loger(f'{ex}')
-    p_magenta(f'{ex}')
+    loger(str(s))
+    p_magenta(str(s))
 
 
 def exec(s):
-    loger(f'satart exec {s}')
+    loger('satart exec: ' + s)
     try:
         os.system(s)
         loger('success exec')
     except Exception as ex:
-        alarm(f'{ex}')
+        alarm(str(ex))
 
 
 def cod_string(fname, user1='', user2=''):
     loger('start cod_string')
     try:
-        s = f'gpg --output {OUT_DATA_PATH}{nau().replace(" ", "_")}_{fname}.gpg --encrypt --recipient {EMAIL_1} --recipient {EMAIL_2} {IN_DATA_PATH + fname}'
+        s = 'gpg --output ' + OUT_DATA_PATH + nau().replace(" ", "_") + '_' + fname + '.gpg --encrypt --recipient ' + EMAIL_1 + ' --recipient ' + EMAIL_2 + ' ' + IN_DATA_PATH + fname
+        #s = f'gpg --output {OUT_DATA_PATH}{nau().replace(" ", "_")}_{fname}.gpg --encrypt --recipient {EMAIL_1} --recipient {EMAIL_2} {IN_DATA_PATH + fname}'
         loger(s)
         return s
     except Exception as ex:
-        alarm(f'{ex}')
+        alarm(str(ex))
 
 
 def cod_up(fname, user1='', user2=''):
@@ -49,11 +50,11 @@ def process(fname):
     try:
         user1 = EMAIL_1
         user2 = EMAIL_2
-        log_data = f'start process {fname} {user1} {user2}'
+        log_data = 'start process: ' + fname + ' ' + user1 + ' ' + user2
         cod_up(fname, user1, user2)
         os.remove(IN_DATA_PATH + fname)
     except Exception as ex:
-        alarm(f'{ex} {fname}')
+        alarm(str(ex) + ' ' + fname)
 
 
 def put_to_out(fname):
@@ -61,12 +62,12 @@ def put_to_out(fname):
     out_fname = OUT_DATA_PATH + fname
     try:
         #shutil.move(in_fname, out_fname)
-        p_green(f'-> {out_fname}')
+        p_green('-> ' + out_fname)
         loger(out_fname)
     except Exception as ex:
         p_red(ex)
-        p_magenta(f'err movie: {ex} {in_fname}')
-        loger(f'err movie: {ex} {in_fname}')
+        p_magenta('err movie: ' + str(ex) + ' ' + in_fname)
+        loger('err movie: ' + str(ex) + ' ' + in_fname)
 
 
 def get_in_fnames():
@@ -152,7 +153,7 @@ def text_to_file(b, fname):
     if b == '':
         p_magenta('emptty ' + fname)
     else:
-        print(f'\n {fname}\n')
+        print(fname)
 
 
 def text_add_file(b, fname):
@@ -194,15 +195,15 @@ def has_prefix(s):
 def check_prefix(fname):
     if has_prefix(fname):
         return True
-    os.rename(IN_DATA_PATH + fname, f'arhiv/{nau().split(".")[-1]}_{fname}')
-    loger(f'move to arhiv {fname}')
+    os.rename(IN_DATA_PATH + fname, 'arhiv/' + nau().split(".")[-1] + '_' + fname)
+    loger('move to arhiv ' + fname)
     return False
 
 def check_indata():
     fnames = os.listdir(IN_DATA_PATH)
     if fnames:
-        msg = f'not empty {IN_DATA_PATH}:\n{fnames}\n'
-        alsrm(msg)
+        msg = 'not empty: ' + IN_DATA_PATH + ' :\n' + str(fnames)
+        alarm(msg)
 
 
 #color print__________________________________________
@@ -229,4 +230,4 @@ USER = config_data['user']
 EMAIL_1 = config_data['email_1']
 EMAIL_2 = config_data['email_2']
 
-GNU_PG_HOME = f'/home/{USER}/.gnupg'
+GNU_PG_HOME = '/home/' + USER + '/.gnupg'
